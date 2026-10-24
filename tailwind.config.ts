@@ -7,6 +7,23 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    // Dark mode surface classes used throughout
+    "dark:bg-graphite",
+    "dark:bg-graphite-light",
+    "dark:bg-graphite-surface",
+    "dark:bg-navy",
+    "dark:text-cloud",
+    "dark:text-sky",
+    "dark:border-graphite-light",
+    "dark:border-sky",
+    // Cloud backgrounds
+    "bg-cloud",
+    "bg-soft-gray",
+    "bg-graphite",
+    "bg-graphite-light",
+    "bg-graphite-surface",
+  ],
   theme: {
     extend: {
       colors: {
@@ -14,11 +31,14 @@ const config: Config = {
         sky: { DEFAULT: "#38BDF8", dark: "#0ea5e9", light: "#7dd3fc" },
         teal: { DEFAULT: "#14B8A6", dark: "#0d9488", light: "#5eead4" },
         emerald: { DEFAULT: "#22C55E", dark: "#16a34a", light: "#86efac" },
-        cloud: "#F8FAFC",
-        "soft-gray": "#E2E8F0",
-        graphite: { DEFAULT: "#171C26", light: "#232a38", surface: "#1e2535" },
+        cloud: { DEFAULT: "#F8FAFC" },
+        "soft-gray": { DEFAULT: "#E2E8F0" },
+        graphite: {
+          DEFAULT: "#171C26",
+          light:   "#232a38",
+          surface: "#1e2535",
+        },
         "brand-orange": "#F97316",
-        // Keep gold for logo accent (minimally used)
         gold: { DEFAULT: "#F97316", light: "#fdba74", dark: "#ea580c" },
       },
       fontFamily: {
