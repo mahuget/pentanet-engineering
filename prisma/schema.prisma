@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model ContactSubmission {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String   @db.VarChar(200)
+  email       String   @db.VarChar(320)
+  phone       String?  @db.VarChar(50)
+  subject     String   @db.VarChar(300)
+  message     String
+  status      String   @default("new") @db.VarChar(50)
+  ipHash      String?  @db.VarChar(64)
+  submittedAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@index([email])
+  @@index([status])
+  @@index([submittedAt(sort: Desc)])
+  @@map("contact_submissions")
+}
+
+model QuoteRequest {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String   @db.VarChar(200)
+  company         String?  @db.VarChar(300)
+  email           String   @db.VarChar(320)
+  phone           String?  @db.VarChar(50)
+  projectType     String   @db.VarChar(200)
+  projectLocation String?  @db.VarChar(300)
+  budgetRange     String?  @db.VarChar(100)
+  timeline        String?  @db.VarChar(100)
+  description     String
+  services        String[]
+  status          String   @default("new") @db.VarChar(50)
+  ipHash          String?  @db.VarChar(64)
+  submittedAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@index([email])
+  @@index([status])
+  @@index([submittedAt(sort: Desc)])
+  @@map("quote_requests")
+}

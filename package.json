@@ -10,8 +10,7 @@
     "type-check": "tsc --noEmit",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:push": "prisma db push",
-    "postinstall": "prisma generate"
+    "db:push": "prisma db push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
