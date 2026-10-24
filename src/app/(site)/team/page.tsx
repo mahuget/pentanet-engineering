@@ -12,28 +12,18 @@ export const metadata: Metadata = {
   description: "Meet the experienced engineering professionals at Pentanet Engineering PLC dedicated to delivering quality projects.",
 };
 
-// Placeholder team structure — no real staff invented
 const DEPARTMENTS = [
-  { name: "Leadership", placeholder: 2 },
-  { name: "Structural Engineering", placeholder: 3 },
-  { name: "Civil Engineering", placeholder: 3 },
-  { name: "Project Management", placeholder: 2 },
+  { name: "Leadership" },
+  { name: "Engineering" },
 ];
 
-const PLACEHOLDER_MEMBER = {
-  name: "Team Member",
-  role: "Position Title",
-  bio: "Professional biography and qualifications to be added once team information is provided by Pentanet Engineering PLC.",
-  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
-};
-
 const PLACEHOLDER_MEMBERS = [
-  { ...PLACEHOLDER_MEMBER, id: "1", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80", dept: "Leadership" },
-  { ...PLACEHOLDER_MEMBER, id: "2", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80", dept: "Leadership" },
-  { ...PLACEHOLDER_MEMBER, id: "3", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80", dept: "Structural Engineering" },
-  { ...PLACEHOLDER_MEMBER, id: "4", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80", dept: "Structural Engineering" },
-  { ...PLACEHOLDER_MEMBER, id: "5", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80", dept: "Civil Engineering" },
-  { ...PLACEHOLDER_MEMBER, id: "6", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80", dept: "Civil Engineering" },
+  { id: "1", name: "Team Member", role: "Chief Executive Officer", bio: "Profile to be added by Pentanet Engineering PLC.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80", dept: "Leadership" },
+  { id: "2", name: "Team Member", role: "Technical Director", bio: "Profile to be added by Pentanet Engineering PLC.", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80", dept: "Leadership" },
+  { id: "3", name: "Team Member", role: "Senior Engineer", bio: "Profile to be added by Pentanet Engineering PLC.", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80", dept: "Engineering" },
+  { id: "4", name: "Team Member", role: "Project Manager", bio: "Profile to be added by Pentanet Engineering PLC.", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80", dept: "Engineering" },
+  { id: "5", name: "Team Member", role: "Telecom Engineer", bio: "Profile to be added by Pentanet Engineering PLC.", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80", dept: "Engineering" },
+  { id: "6", name: "Team Member", role: "Power Systems Engineer", bio: "Profile to be added by Pentanet Engineering PLC.", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80", dept: "Engineering" },
 ];
 
 export default function TeamPage() {
@@ -42,21 +32,21 @@ export default function TeamPage() {
       <PageHero
         eyebrow="Our People"
         title="Meet the Team"
-        description="Pentanet Engineering PLC is powered by experienced engineers, project managers, and technical professionals committed to engineering excellence."
+        description="Pentanet Engineering PLC is powered by experienced engineers, project managers, and technical professionals committed to delivering excellence."
         breadcrumbs={[{ label: "Our Team", href: "/team" }]}
       />
 
       {/* Disclaimer */}
-      <div className="bg-gold/10 border-b border-gold/20">
+      <div className="bg-sky/5 dark:bg-sky/5 border-b border-sky/20">
         <div className="section-container py-3">
-          <p className="text-xs text-graphite/60 italic text-center">
-            All profiles shown are placeholders. Real team information will be added once provided by Pentanet Engineering PLC. No staff details have been invented.
+          <p className="text-xs text-graphite/60 dark:text-cloud/50 italic text-center">
+            All profiles shown are placeholders. Real team information will be added once provided by Pentanet Engineering PLC.
           </p>
         </div>
       </div>
 
       {/* Team grid by department */}
-      <section className="py-24 bg-white" aria-label="Team members">
+      <section className="py-24 bg-cloud dark:bg-graphite" aria-label="Team members">
         <div className="section-container space-y-20">
           {DEPARTMENTS.map((dept) => {
             const members = PLACEHOLDER_MEMBERS.filter((m) => m.dept === dept.name);
@@ -78,21 +68,27 @@ export default function TeamPage() {
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" aria-hidden="true" />
-                          {/* Hover overlay with links */}
+                          {/* Hover overlay */}
                           <div className="absolute inset-0 bg-navy/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                            <button className="w-10 h-10 bg-white/20 hover:bg-gold rounded-full flex items-center justify-center text-white hover:text-navy transition-all" aria-label="LinkedIn profile — placeholder">
+                            <button
+                              className="w-10 h-10 bg-white/20 hover:bg-sky rounded-full flex items-center justify-center text-white hover:text-navy transition-all"
+                              aria-label="LinkedIn profile — placeholder"
+                            >
                               <Linkedin className="w-4 h-4" aria-hidden="true" />
                             </button>
-                            <button className="w-10 h-10 bg-white/20 hover:bg-gold rounded-full flex items-center justify-center text-white hover:text-navy transition-all" aria-label="Email — placeholder">
+                            <button
+                              className="w-10 h-10 bg-white/20 hover:bg-sky rounded-full flex items-center justify-center text-white hover:text-navy transition-all"
+                              aria-label="Email — placeholder"
+                            >
                               <Mail className="w-4 h-4" aria-hidden="true" />
                             </button>
                           </div>
                         </div>
                         {/* Info */}
                         <div className="p-5">
-                          <h3 className="font-display font-semibold text-navy">{member.name}</h3>
-                          <p className="text-gold text-sm font-medium mt-0.5">{member.role}</p>
-                          <p className="text-graphite/60 text-xs mt-3 leading-relaxed line-clamp-3">{member.bio}</p>
+                          <h3 className="font-display font-semibold text-navy dark:text-cloud">{member.name}</h3>
+                          <p className="text-sky text-sm font-medium mt-0.5">{member.role}</p>
+                          <p className="text-graphite/60 dark:text-cloud/50 text-xs mt-3 leading-relaxed line-clamp-3">{member.bio}</p>
                         </div>
                       </div>
                     </StaggerItem>
@@ -104,8 +100,8 @@ export default function TeamPage() {
         </div>
       </section>
 
-      {/* Values section */}
-      <section className="py-24 bg-gray-light" aria-labelledby="culture-heading">
+      {/* Culture section */}
+      <section className="py-24 bg-soft-gray dark:bg-graphite-light" aria-labelledby="culture-heading">
         <div className="section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <AnimateIn>
@@ -122,8 +118,12 @@ export default function TeamPage() {
                   "Safety-first culture across all teams",
                   "Commitment to mentoring the next generation",
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-3 text-graphite/80">
-                    <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0" aria-hidden="true" />
+                  <div key={item} className="flex items-center gap-3 text-graphite/80 dark:text-cloud/70">
+                    <span
+                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                      style={{ background: "linear-gradient(135deg, #38BDF8, #14B8A6)" }}
+                      aria-hidden="true"
+                    />
                     {item}
                   </div>
                 ))}
@@ -136,15 +136,20 @@ export default function TeamPage() {
             <AnimateIn direction="left" delay={0.15}>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { label: "Expert Engineers", value: "—", note: "TBC" },
-                  { label: "Years Experience", value: "—", note: "TBC" },
-                  { label: "Projects Delivered", value: "—", note: "TBC" },
-                  { label: "Disciplines", value: "8+", note: "Engineering disciplines" },
+                  { label: "Expert Engineers", value: "—", note: "To be confirmed" },
+                  { label: "Years Experience", value: "—", note: "To be confirmed" },
+                  { label: "Projects Delivered", value: "—", note: "To be confirmed" },
+                  { label: "Sectors", value: "6", note: "Engineering disciplines" },
                 ].map((stat) => (
-                  <div key={stat.label} className="bg-white rounded-2xl p-6 shadow-card text-center">
-                    <div className="text-3xl font-display font-black text-navy mb-1">{stat.value}</div>
-                    <div className="text-sm font-semibold text-graphite">{stat.label}</div>
-                    <div className="text-xs text-graphite/40 mt-1 italic">{stat.note}</div>
+                  <div key={stat.label} className="bg-cloud dark:bg-graphite-surface rounded-2xl p-6 shadow-card text-center">
+                    <div
+                      className="text-3xl font-display font-black mb-1"
+                      style={{ background: "linear-gradient(135deg, #38BDF8, #14B8A6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
+                    >
+                      {stat.value}
+                    </div>
+                    <div className="text-sm font-semibold text-navy dark:text-cloud">{stat.label}</div>
+                    <div className="text-xs text-graphite/40 dark:text-cloud/30 mt-1 italic">{stat.note}</div>
                   </div>
                 ))}
               </div>
