@@ -11,9 +11,12 @@ const nextConfig = {
     ],
   },
 
+  // Next.js 15: experimental features
+  experimental: {
+    // Opt into React 19 features
+  },
+
   async headers() {
-    // In development, use a relaxed CSP so Next.js HMR and React DevTools work.
-    // In production, use a strict CSP.
     const cspDirectives = isDev
       ? [
           "default-src 'self'",
@@ -47,19 +50,8 @@ const nextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
           { key: "X-XSS-Protection", value: "1; mode=block" },
-          // Only set HSTS in production
-          ...(!isDev
-            ? [
-                {
-                  key: "Strict-Transport-Security",
-                  value: "max-age=63072000; includeSubDomains; preload",
-                },
-              ]
-            : []),
-          {
-            key: "Content-Security-Policy",
-            value: cspDirectives.join("; "),
-          },
+          ...(!isDev ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }] : []),
+          { key: "Content-Security-Policy", value: cspDirectives.join("; ") },
         ],
       },
     ];
