@@ -1,25 +1,18 @@
 /**
- * Middleware — protects all /admin/* routes except /admin (login page).
- * Unauthenticated requests are redirected to /admin.
+ * Middleware — protects all /admin/dashboard, /admin/contacts, /admin/quotes routes.
+ * Unauthenticated requests redirect to /admin (login page).
+ * Uses next-auth v4 withAuth middleware.
  */
 
-import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
-
-export default withAuth(
-  function middleware(_req) {
-    return NextResponse.next();
-  },
-  {
-    callbacks: {
-      authorized: ({ token }) => !!token,
-    },
-    pages: {
-      signIn: "/admin",
-    },
-  }
-);
+export { default } from "next-auth/middleware";
 
 export const config = {
-  matcher: ["/admin/dashboard/:path*", "/admin/contacts/:path*", "/admin/quotes/:path*"],
+  matcher: [
+    "/admin/dashboard",
+    "/admin/dashboard/:path*",
+    "/admin/contacts",
+    "/admin/contacts/:path*",
+    "/admin/quotes",
+    "/admin/quotes/:path*",
+  ],
 };
