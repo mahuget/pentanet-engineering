@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Logo } from "@/components/shared/Logo";
 import { Eye, EyeOff, Lock, Mail, Loader2, AlertCircle } from "lucide-react";
 
@@ -140,7 +141,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="text-center text-white/20 text-xs mt-4">
-          <a href="/" className="hover:text-white/50 transition-colors">← Back to website</a>
+          <Link href="/" className="hover:text-white/50 transition-colors">← Back to website</Link>
         </p>
       </div>
     </div>
