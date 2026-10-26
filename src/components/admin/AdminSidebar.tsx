@@ -1,23 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
-import {
-  LayoutDashboard, MessageSquare, FileText,
-  LogOut, ExternalLink, Shield
-} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { LayoutDashboard, MessageSquare, FileText, LogOut, ExternalLink, Shield } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const navItems = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/contacts", label: "Contact Enquiries", icon: MessageSquare },
-  { href: "/admin/quotes", label: "Quote Requests", icon: FileText },
+  { href: "/admin/dashboard", label: "Dashboard",          icon: LayoutDashboard },
+  { href: "/admin/contacts",  label: "Contact Enquiries",  icon: MessageSquare   },
+  { href: "/admin/quotes",    label: "Quote Requests",     icon: FileText        },
 ];
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const router   = useRouter();
+  const [signingOut, setSigningOut] = useState(false);
+
+  async function handleSignOut() {
+    setSigningOut(true);
+    try {
+      await fetch("/api/admin/logout", { method: "POST", credentials: "include" });
+    } catch {
+      // Proceed regardless
+    }
+    router.push("/admin");
+    router.refresh();
+  }
 
   return (
     <aside className="w-64 flex-shrink-0 bg-graphite min-h-screen flex flex-col border-r border-white/10">
@@ -25,13 +35,13 @@ export function AdminSidebar() {
       <div className="px-5 py-5 border-b border-white/10">
         <Logo className="h-8" variant="white" />
         <div className="flex items-center gap-1.5 mt-2">
-          <Shield className="w-3 h-3 text-sky" />
+          <Shield className="w-3 h-3 text-sky" aria-hidden="true" />
           <span className="text-sky text-xs font-semibold uppercase tracking-wider">Admin Portal</span>
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 px-3 py-4 space-y-1" aria-label="Admin navigation">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
           return (
@@ -64,11 +74,12 @@ export function AdminSidebar() {
           View Website
         </a>
         <button
-          onClick={() => signOut({ callbackUrl: "/admin" })}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all"
+          onClick={handleSignOut}
+          disabled={signingOut}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-all disabled:opacity-50"
         >
           <LogOut className="w-4 h-4" aria-hidden="true" />
-          Sign Out
+          {signingOut ? "Signing out..." : "Sign Out"}
         </button>
       </div>
     </aside>

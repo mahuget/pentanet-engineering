@@ -24,6 +24,7 @@ export function AdminStatusUpdater({ id, currentStatus, type, options }: Props) 
       const res = await fetch(`/api/admin/${type}s/${id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
       if (res.ok) {

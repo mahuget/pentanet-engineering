@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/shared/Logo";
@@ -23,20 +22,23 @@ export default function AdminLoginPage() {
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // important — ensures cookie is set
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      if (result?.error) {
-        setError("Invalid email or password. Please try again.");
-      } else {
+      if (res.ok) {
+        // Login successful — cookie is now set by the server
         router.push("/admin/dashboard");
         router.refresh();
+      } else {
+        const json = await res.json().catch(() => ({}));
+        setError(json.error || "Invalid email or password. Please try again.");
       }
     } catch {
-      setError("An unexpected error occurred. Please try again.");
+      setError("Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -47,12 +49,13 @@ export default function AdminLoginPage() {
       {/* Background pattern */}
       <div
         className="absolute inset-0 opacity-5"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338BDF8' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2338BDF8' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}
         aria-hidden="true"
       />
 
       <div className="relative z-10 w-full max-w-md">
-        {/* Card */}
         <div className="bg-graphite-surface rounded-3xl p-8 shadow-2xl border border-white/10">
           {/* Logo */}
           <div className="flex justify-center mb-8">
@@ -64,22 +67,20 @@ export default function AdminLoginPage() {
             <p className="text-white/50 text-sm mt-1">Sign in to manage enquiries</p>
           </div>
 
-          {/* Error */}
           {error && (
-            <div className="flex items-center gap-3 bg-red-900/30 border border-red-500/30 rounded-xl p-3 mb-6">
-              <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+            <div className="flex items-center gap-3 bg-red-900/30 border border-red-500/30 rounded-xl p-3 mb-6" role="alert">
+              <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" aria-hidden="true" />
               <p className="text-red-300 text-sm">{error}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email */}
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div>
               <label htmlFor="admin-email" className="block text-sm font-medium text-white/70 mb-1.5">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" aria-hidden="true" />
                 <input
                   id="admin-email"
                   type="email"
@@ -93,13 +94,12 @@ export default function AdminLoginPage() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label htmlFor="admin-password" className="block text-sm font-medium text-white/70 mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" aria-hidden="true" />
                 <input
                   id="admin-password"
                   type={showPassword ? "text" : "password"}
@@ -121,14 +121,13 @@ export default function AdminLoginPage() {
               </div>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
               className="w-full btn-primary py-3 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Signing in...</>
+                <><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> Signing in...</>
               ) : (
                 "Sign In"
               )}
@@ -136,7 +135,7 @@ export default function AdminLoginPage() {
           </form>
 
           <p className="text-center text-white/25 text-xs mt-6">
-            This area is restricted to authorized Pentanet staff only.
+            Restricted to authorized Pentanet Engineering PLC staff only.
           </p>
         </div>
 
